@@ -3,16 +3,16 @@ import { Separator } from "./ui/separator";
 
 const Navbar = () => {
   return (
-    <>
-      <nav className="flex px-5 justify-between items-center w-full h-16">
+    <nav>
+      <div className="flex px-5 justify-between items-center w-full h-16">
         <p className="text-xl-bold">Joblist</p>
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-      </nav>
+      </div>
       <Separator className="bg-neutral-30" />
-    </>
+    </nav>
   );
 };
 
