@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import DashboardAdmin from "./pages/DashboardAdmin";
 import ManagementCandidates from "./pages/ManageCandidates";
 import NotFoundPage from "./pages/NotFound";
@@ -11,6 +11,7 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<Navigate to="/career" replace />} />
         <Route path="/admin" element={<DashboardAdmin />} />
         <Route path="/admin/:jobId" element={<ManagementCandidates />} />
         <Route path="/career" element={<CareerPage />} />
