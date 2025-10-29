@@ -5,25 +5,63 @@
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8?logo=tailwindcss)
 ![Zustand](https://img.shields.io/badge/State-Zustand-orange)
 ![TanStack Table](https://img.shields.io/badge/Table-TanStack%20v8-ef4444)
-![TanStack Form](https://img.shields.io/badge/Form-TanStack%20Form-10b981)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)
+
+A simplified **Hiring Management System** built for the **Rakamin Frontend Engineer Case Study**.  
+This web app allows **Recruiters (Admin)** to manage job postings and **Applicants (Job Seekers)** to apply using a **dynamically generated form** that adapts to backend configurations.
 
 ---
 
 ## 🚀 Project Overview
 
-This project is a **Hiring Management Web Application** built for the **Frontend Engineer Challenge**.  
-It enables **Recruiters (Admins)** to manage job vacancies and candidates, and allows **Job Seekers (Applicants)** to browse and apply for jobs.
+The **Hiring Management Web App** enables recruiters to create, configure, and manage job vacancies while allowing applicants to apply easily.  
+Each job has configurable application fields (mandatory, optional, or hidden), which control the frontend form’s behavior dynamically.
 
-The app emphasizes:
-- **Dynamic form rendering** based on backend configuration  
-- **Enterprise-grade, pixel-perfect UI** aligned with Figma  
-- **Maintainable architecture** using modern React patterns  
+### 🎯 Objectives
+- **Admin** can:
+  - Create and manage job postings.
+  - Configure applicant form fields (mandatory / optional / off).
+  - View and manage applicants in a flexible, spreadsheet-like table.
+- **Applicant** can:
+  - View active job listings.
+  - Apply for jobs via dynamically generated forms.
+  - Capture a profile photo using hand gesture detection.
 
 ---
 
-## 🧱 Tech Stack Used
+## 🧩 Key Features Implemented
+
+### 🏢 Job List Page
+- Displays all job vacancies with:
+  - Title, Department, Status Badge, and Salary Range.
+- Supports keyword searching and filtering.
+- Includes a “Create Job” modal to add new jobs.
+
+### 🧾 Create Job Modal / Page
+- Dynamic form for job metadata (title, description, department, etc.).
+- **Dynamic Form Configuration**:
+  - Fields adapt automatically based on backend settings:
+    - `required: true` → Mandatory
+    - `required: false` → Optional
+    - Missing field → Hidden
+- Validation updates automatically when backend configuration changes.
+
+### 👥 Candidate Management Page
+- Displays all applicants per job in an interactive table built with **TanStack Table v8**.
+- Supports:
+  - Column resizing.
+  - Column reordering (via DnD Kit).
+  - Sorting and pagination.
+- Includes empty-state handling when no candidates exist.
+
+### 📸 Gesture-Based Photo Capture
+- Applicants can capture a profile photo using webcam gesture detection.
+- Uses simplified logic to detect hand poses and trigger capture automatically.
+
+---
+
+## Tech Stack Used
 
 | Category | Technology |
 |-----------|-------------|
@@ -40,7 +78,7 @@ The app emphasizes:
 
 ---
 
-## ⚙️ How to Run Locally
+## How to Run Locally
 
 ```bash
 # 1. Clone repository
