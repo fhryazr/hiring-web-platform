@@ -1,32 +1,34 @@
 import { useCreateJobForm } from "@/hooks/useCreateJobForm";
 import { Button } from "../ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTrigger,
-} from "../ui/dialog";
 import CreateJobForm from "./CreateJobForm";
+import { Modal } from "../Modal"; // pastikan path sesuai
 
-const CreateJobModal = ({ children }: { children: React.ReactNode }) => {
+interface CreateJobModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+const CreateJobModal = ({ open, onOpenChange }: CreateJobModalProps) => {
   const form = useCreateJobForm();
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
-        <DialogHeader title="Job Opening" />
-
-        <div className="h-156 px-6 py-4 overflow-auto">
-          <CreateJobForm {...form} />
-        </div>
-
-        <DialogFooter>
-          <Button onClick={form.handleSubmit}>Publish Job</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <Modal
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Job Opening"
+      footer={
+        <Button
+          onClick={() => {
+            form.handleSubmit();
+            onOpenChange(false);
+          }}>
+          Publish Job
+        </Button>
+      }>
+      <div className="max-h-[600px] overflow-auto px-6 py-4">
+        <CreateJobForm {...form} />
+      </div>
+    </Modal>
   );
 };
 

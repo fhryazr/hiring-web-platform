@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui/button";
 import type { Job } from "@/types/jobTypes";
+import { useNavigate } from "react-router";
 
 interface JobItemProps {
   job: Job;
 }
 
 const JobItem = ({ job }: JobItemProps) => {
-  const { title, salary_range, list_card } = job;
+  const { id, title, salary_range, list_card } = job;
+
+  const navigate = useNavigate();
 
   return (
     <div className="border rounded-lg p-4 flex justify-between items-center w-full shadow-sm">
@@ -41,7 +44,10 @@ const JobItem = ({ job }: JobItemProps) => {
 
       {/* Bagian kanan: CTA Button */}
       <div>
-        <Button className="py-1.5 px-4 text-l-bold" variant="secondary">
+        <Button
+          className="py-1.5 px-4 text-l-bold bg-primary-main text-white hover:bg-primary-hover"
+          variant="secondary"
+          onClick={() => navigate(`/admin/${id}`)}>
           {list_card.cta}
         </Button>
       </div>

@@ -7,6 +7,7 @@ interface InputWithLabelProps {
   type: string;
   id: string;
   value: string | number;
+  required?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -17,11 +18,15 @@ export function InputWithLabel({
   type,
   value,
   onChange,
+  required,
 }: InputWithLabelProps) {
   return (
     <div className="flex flex-col w-full gap-2">
       <Label htmlFor={type}>
-        <span className="after:content-['*'] after:text-red-500">{label}</span>
+        <span
+          className={required ? "after:content-['*'] after:text-red-500" : ""}>
+          {label}
+        </span>
       </Label>
       <Input
         value={value}
@@ -29,7 +34,7 @@ export function InputWithLabel({
         id={id}
         onChange={onChange}
         placeholder={placeholder}
-        required
+        required={required}
       />
     </div>
   );

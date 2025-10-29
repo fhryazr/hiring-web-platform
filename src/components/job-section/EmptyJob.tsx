@@ -1,7 +1,14 @@
+import { useState } from "react";
 import { Button } from "../ui/button";
 import CreateJobModal from "./CreateJobModal";
 
 const EmptyJob = () => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpenModal = () => {
+    setOpen(true);
+  };
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center gap-4">
       <img src="/Empty State.png" alt="empty" />
@@ -11,11 +18,13 @@ const EmptyJob = () => {
           Create a job opening and start a candidate process
         </p>
       </div>
-      <CreateJobModal>
-        <Button className="py-1.5 px-4 text-l-bold" variant={"secondary"}>
-          Create a new job
-        </Button>
-      </CreateJobModal>
+      <Button
+        className="py-1.5 px-4 text-l-bold"
+        variant={"secondary"}
+        onClick={() => handleOpenModal()}>
+        Create a new job
+      </Button>
+      <CreateJobModal open={open} onOpenChange={setOpen} />
     </div>
   );
 };

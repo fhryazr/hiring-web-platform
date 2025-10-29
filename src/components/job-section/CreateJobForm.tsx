@@ -1,40 +1,39 @@
 import type { useCreateJobForm } from "@/hooks/useCreateJobForm";
 import { DatePicker } from "../DatePicker";
 import { InputWithLabel } from "../InputWithLabel";
-import { Field, FieldGroup, FieldLabel } from "../ui/field";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-  InputGroupText,
-} from "../ui/input-group";
+import { Field, FieldGroup } from "../ui/field";
 import { Label } from "../ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import { Separator } from "../ui/separator";
-import { Textarea } from "../ui/textarea";
 import ProfileInformationToggle from "./ProfileInformationToggle";
+import { TextAreaWithLabel } from "../TextAreaWithLabel";
+import { SelectWithLabel } from "../SelectWithLabel";
+import { SalaryInput } from "../SalaryInput";
 
 type CreateJobFormProps = ReturnType<typeof useCreateJobForm>;
 
 const CreateJobForm = ({
   jobName,
-  setJobName,
+  jobDescription,
+  jobType,
   minSalary,
-  setMinSalary,
   maxSalary,
-  setMaxSalary,
   profileFields,
   numberCandidates,
-  setNumberCandidates,
+  openingDate,
+  closingDate,
+  setJobName,
+  setMinSalary,
+  setMaxSalary,
   setProfileField,
+  setNumberCandidates,
+  setOpeningDate,
+  setClosingDate,
+  setJobDescription,
+  setJobType,
   handleSubmit,
 }: CreateJobFormProps) => {
+  const mandatoryField = ["full_name", "email", "photo_profile"];
+
   return (
     <form
       className="flex flex-col gap-4"
@@ -53,44 +52,46 @@ const CreateJobForm = ({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setJobName(e.target.value)
           }
+          required
         />
 
-        <Field>
-          <FieldLabel htmlFor="job-type">
-            <span className="after:content-['*'] after:text-danger-main">
-              Job Type
-            </span>
-          </FieldLabel>
-          <Select defaultValue="">
-            <SelectTrigger id="job-type">
-              <SelectValue placeholder="Select Job Type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="fulltime">Full-time</SelectItem>
-              <SelectItem value="contract">Contract</SelectItem>
-              <SelectItem value="parttime">Part-time</SelectItem>
-              <SelectItem value="internship">Internship</SelectItem>
-              <SelectItem value="freelance">Freelance</SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
+        <SelectWithLabel
+          id="job-type"
+          label="Job Type"
+          required
+          placeholder="Select Job Type"
+          options={[
+            { value: "full-time", label: "Full-time" },
+            { value: "contract", label: "Contract" },
+            { value: "part-time", label: "Part-time" },
+            { value: "internship", label: "Internship" },
+            { value: "freelance", label: "Freelance" },
+          ]}
+          value={jobType ?? ""}
+          onChange={setJobType}
+        />
 
-        <Field>
-          <FieldLabel htmlFor="job-description">
-            <span className="after:content-['*'] after:text-danger-main">
-              Job Description
-            </span>
-          </FieldLabel>
-          <Textarea
-            id="job-description"
-            placeholder="Write a short description about the job..."
-            className="resize-none"
-          />
-        </Field>
+        <TextAreaWithLabel
+          id="job-description"
+          label="Job Description"
+          placeholder="Ex. "
+          value={jobDescription}
+          onChange={(e) => setJobDescription(e.target.value)}
+        />
 
         <Field className="flex-row">
-          <DatePicker label="Opening Date" />
-          <DatePicker label="Closing Date" />
+          <DatePicker
+            label="Opening Date"
+            value={openingDate}
+            onChange={setOpeningDate}
+            required
+          />
+          <DatePicker
+            label="Closing Date"
+            value={closingDate}
+            onChange={setClosingDate}
+            required
+          />
         </Field>
 
         <InputWithLabel
@@ -100,47 +101,33 @@ const CreateJobForm = ({
           value={numberCandidates || ""}
           type="number"
           onChange={(e) => setNumberCandidates(parseInt(e.target.value))}
+          required
         />
       </FieldGroup>
 
-      {/* Salary Section */}
       <Separator className="border-t bg-neutral-10 text-neutral-30 border-dashed-custom mt-2" />
+
+      {/* Salary Section */}
       <Label>Job Salary</Label>
 
       <FieldGroup className="flex-row gap-4">
-        <Field>
-          <Label>Minimum Estimated Salary</Label>
-          <InputGroup>
-            <InputGroupAddon>
-              <InputGroupText>Rp.</InputGroupText>
-            </InputGroupAddon>
-            <InputGroupInput
-              placeholder="7.000.000"
-              type="number"
-              value={minSalary ?? ""}
-              onChange={(e) => setMinSalary(Number(e.target.value))}
-            />
-          </InputGroup>
-        </Field>
+        <SalaryInput
+          label="Minimum Estimated Salary"
+          placeholder="7.000.000"
+          value={minSalary ?? 0}
+          onChange={setMinSalary}
+        />
 
         <div className="w-[5%] relative">
           <Separator className="absolute bottom-4" orientation="horizontal" />
         </div>
 
-        <Field>
-          <Label>Maximum Estimated Salary</Label>
-          <InputGroup>
-            <InputGroupAddon>
-              <InputGroupText>Rp.</InputGroupText>
-            </InputGroupAddon>
-            <InputGroupInput
-              placeholder="8.000.000"
-              type="number"
-              value={maxSalary ?? ""}
-              onChange={(e) => setMaxSalary(Number(e.target.value))}
-            />
-          </InputGroup>
-        </Field>
+        <SalaryInput
+          label="Maximum Estimated Salary"
+          placeholder="8.000.000"
+          value={maxSalary ?? 0}
+          onChange={setMaxSalary}
+        />
       </FieldGroup>
 
       {/* Profile Info Section */}
@@ -149,11 +136,19 @@ const CreateJobForm = ({
         <FieldGroup className="gap-4 px-4 py-5">
           {Object.entries(profileFields).map(([key, value]) => (
             <div key={key}>
-              <Field className="flex-row justify-between items-center">
-                <Label>{key.replace(/_/g, " ")}</Label>
+              <Field className="flex-row justify-between items-center mb-2">
+                <Label>
+                  {key
+                    .split("_")
+                    .map((word) => word[0].toUpperCase() + word.slice(1))
+                    .join(" ")}
+                </Label>
                 <ProfileInformationToggle
                   value={value}
                   onChange={(val) => setProfileField(key, val)}
+                  disabledValues={
+                    mandatoryField.includes(key) ? ["optional", "off"] : []
+                  }
                 />
               </Field>
               <Separator />

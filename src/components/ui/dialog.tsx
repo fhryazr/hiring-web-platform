@@ -71,18 +71,26 @@ function DialogContent({
 function DialogHeader({
   className,
   title,
+  description,
   showCloseButton = true,
   ...props
 }: React.ComponentProps<"div"> & {
   title?: React.ReactNode;
+  description?: React.ReactNode;
   showCloseButton?: boolean;
 }) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex items-center justify-between px-6 py-4 border-b border-neutral-30", className)}
+      className={cn(
+        "flex items-center justify-between px-6 py-4 border-b border-neutral-30",
+        className
+      )}
       {...props}>
-      <DialogTitle className="text-lg font-semibold">{title}</DialogTitle>
+      <div>
+        <DialogTitle className="text-lg font-semibold">{title}</DialogTitle>
+        <DialogDescription className="text-s">{description}</DialogDescription>
+      </div>
       {showCloseButton && (
         <DialogPrimitive.Close className="rounded-md opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
           <XIcon className="size-5" />
