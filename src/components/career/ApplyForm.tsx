@@ -18,6 +18,7 @@ import DomicileSelect from "../DomicileSelect";
 export default function ApplyForm() {
   const [photo, setPhoto] = useState<string | null>(null);
   const [openModal, setOpenModal] = useState(false);
+  const [jobName, setJobName] = useState<string | undefined>("");
   const [applicationForm, setApplicationForm] = useState<Section[]>();
   const { jobId } = useParams<{ jobId: string }>();
   const { getJobById } = useJobStore();
@@ -28,6 +29,7 @@ export default function ApplyForm() {
   useEffect(() => {
     if (jobId) {
       const jobApplicationData = getJobById(jobId);
+      setJobName(jobApplicationData?.title);
       setApplicationForm(jobApplicationData?.application_form?.sections);
     }
   }, [jobId, getJobById]);
@@ -249,7 +251,7 @@ export default function ApplyForm() {
             onClick={() => navigate("/career")}
             className="cursor-pointer"
           />
-          <h2 className="text-lg font-semibold">Apply Front End at Rakamin</h2>
+          <h2 className="text-lg font-semibold">{`Apply ${jobName} at Rakamin`}</h2>
         </div>
         <p className="text-sm text-gray-500">This field required to fill</p>
       </div>
