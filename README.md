@@ -30,6 +30,15 @@ Each job has configurable application fields (mandatory, optional, or hidden), w
 
 ---
 
+## 🧭 Application Routes
+
+| Role | Path | Description |
+|------|------|-------------|
+| **Applicant** | `/career` | Displays the job list and allows job seekers to apply. |
+| **Admin** | `/admin` | Displays job management and candidate management dashboard. |
+
+---
+
 ## 🧩 Key Features Implemented
 
 ### 🏢 Job List Page
